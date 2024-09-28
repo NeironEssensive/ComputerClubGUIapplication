@@ -90,6 +90,7 @@ public MainForm(){
         this.dispose();
     }
     else if(e.getSource() == login){
+        LoginForm loginForm = new LoginForm();
         this.dispose();
     }
     }
