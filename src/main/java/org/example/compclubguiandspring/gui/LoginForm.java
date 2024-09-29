@@ -3,10 +3,11 @@ package org.example.compclubguiandspring.gui;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class LoginForm {
+public class LoginForm extends JFrame implements ActionListener {
     JFrame jframe;
     JButton loginButton;
     JTextField loginText;
@@ -31,6 +32,7 @@ public class LoginForm {
         loginButton.setPreferredSize(new Dimension(250,35));
         loginButton.setBackground(new Color(66, 245, 114));
         loginButton.setFocusPainted(false);
+        loginButton.addActionListener(this);
 
         loginText.setText("Enter your login");
         loginText.setForeground(Color.gray);
@@ -86,7 +88,12 @@ public class LoginForm {
         jframe.requestFocus();
     }
 
-    public static void main(String[] args){
-LoginForm loginForm = new LoginForm();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == loginButton){
+            GameLibrary gameLibrary = new GameLibrary();
+            gameLibrary.setVisible(true);
+            jframe.dispose();
+        }
     }
 }

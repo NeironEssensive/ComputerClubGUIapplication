@@ -226,6 +226,11 @@ public class RegistrationForm extends JFrame implements ActionListener {
                         finishText.setText(data + data2);
                         finishText.setEditable(false);
                         res.setText("Registration Successfully..");
+                        Thread thread = new Thread();
+                        thread.start();
+                        Thread.sleep(5000);
+                        LoginForm loginForm = new LoginForm();
+                        this.dispose();
                     } else {
                         finishText.setText("");
                         resadd.setText("");
@@ -233,8 +238,9 @@ public class RegistrationForm extends JFrame implements ActionListener {
                                 + " terms & conditions..");
                     }
                 }
-            }
-            finally {
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            } finally {
                 session.close();
                 factory.close();
             }
