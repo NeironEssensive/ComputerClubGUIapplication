@@ -11,17 +11,17 @@ public class GameLibrary extends JFrame implements ActionListener {
     JLabel balanceText;
     JButton balanceAddButton;
     private Container c;
-    ImageIcon icon = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\photo_2024-09-28_16-30-31 (1).jpg");
-    ImageIcon iconSteam = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\Steam_icon_logo.svg.png");
-    ImageIcon iconDota = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\dotalogo0.png");
-    ImageIcon iconCS = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\cslogo0.jpg");
-    ImageIcon iconBrawlHalla = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\brawlhallalogo0.png");
-    ImageIcon iconDBD = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\deadbydaylightlogo0.png");
-    ImageIcon iconValorant = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\valorantlogo0.png");
-    ImageIcon iconFortnite = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\fortnitelogo0.jpg");
-    ImageIcon iconLOL = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\lollogo0.jpg");
-    ImageIcon iconDiscord = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\discordlogo0.jpg");
-    ImageIcon iconGHub = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\ghublogo0.jpg");
+    ImageIcon icon = new ImageIcon("src\\main\\resources\\photo_2024-09-28_16-30-31 (1).jpg");
+    ImageIcon iconSteam = new ImageIcon("src\\main\\resources\\Steam_icon_logo.svg.png");
+    ImageIcon iconDota = new ImageIcon("src\\main\\resources\\dotalogo0.png");
+    ImageIcon iconCS = new ImageIcon("src\\main\\resources\\cslogo0.jpg");
+    ImageIcon iconBrawlHalla = new ImageIcon("src\\main\\resources\\brawlhallalogo0.png");
+    ImageIcon iconDBD = new ImageIcon("src\\main\\resources\\deadbydaylightlogo0.png");
+    ImageIcon iconValorant = new ImageIcon("src\\main\\resources\\valorantlogo0.png");
+    ImageIcon iconFortnite = new ImageIcon("src\\main\\resources\\fortnitelogo0.jpg");
+    ImageIcon iconLOL = new ImageIcon("src\\main\\resources\\lollogo0.jpg");
+    ImageIcon iconDiscord = new ImageIcon("src\\main\\resources\\discordlogo0.jpg");
+    ImageIcon iconGHub = new ImageIcon("src\\main\\resources\\ghublogo0.jpg");
 
     JLabel logotype = new JLabel(icon);
     private JButton launchSteamButton;
@@ -40,8 +40,10 @@ public class GameLibrary extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
+
         c = getContentPane();
         c.setLayout(null);
+        c.setBackground(Color.lightGray);
         logotype.setBounds(175, -100, 800, 600);
         logotype.setIcon(icon);
         c.add(logotype);
@@ -139,13 +141,96 @@ public class GameLibrary extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-if(e.getSource()==launchSteamButton){
+    if(e.getSource()==launchSteamButton){
     try {
         Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe");
     } catch (IOException e1) {
         e1.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
     }
 }
+        if(e.getSource()==launchBrawlhallaButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchDiscordButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Users\\aglus\\AppData\\Local\\Discord\\app-1.0.9164\\Discord.exe");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchDotaButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1       ");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchValorantButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchLOLButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchGHubButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchDBDButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchCounterStrikeButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+        if(e.getSource()==launchFortniteButton){
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }
 
     public static void main(String[] args) {

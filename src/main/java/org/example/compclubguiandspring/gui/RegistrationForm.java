@@ -5,11 +5,13 @@ import org.example.compclubguiandspring.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 @Component
 public class RegistrationForm extends JFrame implements ActionListener {
@@ -52,8 +54,7 @@ public class RegistrationForm extends JFrame implements ActionListener {
             "2011", "2012", "2013", "2014",
             "2015", "2016", "2017", "2018",
             "2019" };
-    // constructor, to initialize the components
-    // with default values.
+
     public RegistrationForm()
     {
         setTitle("Registration Form");
@@ -191,22 +192,31 @@ public class RegistrationForm extends JFrame implements ActionListener {
                 String passwordValue = textPassword.getText();
                 String phoneValue = textPhone.getText();
                 session.beginTransaction();
+                Query<User> query = session.createQuery("from User where login = :loginValue", User.class);
+                query.setParameter("loginValue", loginValue);
+                List<User> users = query.list();
                 if (loginValue.isEmpty()) {
                     res.setText("Login must not be empty"
                             + " for registration..");
-                } else if (passwordValue.isEmpty()) {
+                }
+                else if (!users.isEmpty()) {
+                    res.setText("This login is "
+                            + " already exists..");
+                }
+                else if (passwordValue.isEmpty()) {
                     res.setText("Password must not be empty"
                             + " for registration..");
                 } else if (phoneValue.isEmpty()) {
                     res.setText("Fill phone number for"
                             + " registration..");
+                } else if (phoneValue.length() != 11) {
+                    res.setText("Phone number must be 11 digits");
+                } else if (loginValue.length() < 4) {
+                    res.setText("Login must have at least 4 characters");
+                } else if (loginValue.length() > 15){
+                        res.setText("Login must have at most 15 characters");
                 } else {
                     if (term.isSelected()) {
-                        User user = new User();
-                        user.setLogin(loginValue);
-                        user.setPassword(passwordValue);
-                        user.setPhone(phoneValue);
-                        session.save(user);
                         String data
                                 = "Login : "
                                 + textLogin.getText() + "\n"
@@ -224,8 +234,14 @@ public class RegistrationForm extends JFrame implements ActionListener {
                                 + "\n";
 
                         finishText.setText(data + data2);
+                        finishText.setVisible(true);
                         finishText.setEditable(false);
                         res.setText("Registration Successfully..");
+                        User user = new User();
+                        user.setLogin(loginValue);
+                        user.setPassword(passwordValue);
+                        user.setPhone(phoneValue);
+                        session.save(user);
                         Thread thread = new Thread();
                         thread.start();
                         Thread.sleep(5000);
@@ -241,7 +257,9 @@ public class RegistrationForm extends JFrame implements ActionListener {
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             } finally {
-                session.close();
+                if (session != null && session.isOpen()) {
+                    session.close();
+                }
                 factory.close();
             }
         }

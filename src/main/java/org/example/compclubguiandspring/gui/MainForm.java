@@ -16,7 +16,7 @@ public class MainForm extends JFrame implements ActionListener {
     private JLabel invokerE;
     private JButton signIn;
     private JButton login;
-    ImageIcon icon = new ImageIcon("C:\\Users\\aglus\\IdeaProjects\\CompClubGUIandSpring\\src\\main\\resources\\photo_2024-09-28_16-30-31 (1).jpg");
+    ImageIcon icon = new ImageIcon("src\\main\\resources\\photo_2024-09-28_16-30-31 (1).jpg");
     JLabel logotype = new JLabel(icon);
 
 
