@@ -11,17 +11,17 @@ public class GameLibrary extends JFrame implements ActionListener {
     JLabel balanceText;
     JButton balanceAddButton;
     private Container c;
-    ImageIcon icon = new ImageIcon("src\\main\\resources\\photo_2024-09-28_16-30-31 (1).jpg");
-    ImageIcon iconSteam = new ImageIcon("src\\main\\resources\\Steam_icon_logo.svg.png");
-    ImageIcon iconDota = new ImageIcon("src\\main\\resources\\dotalogo0.png");
-    ImageIcon iconCS = new ImageIcon("src\\main\\resources\\cslogo0.jpg");
-    ImageIcon iconBrawlHalla = new ImageIcon("src\\main\\resources\\brawlhallalogo0.png");
-    ImageIcon iconDBD = new ImageIcon("src\\main\\resources\\deadbydaylightlogo0.png");
-    ImageIcon iconValorant = new ImageIcon("src\\main\\resources\\valorantlogo0.png");
-    ImageIcon iconFortnite = new ImageIcon("src\\main\\resources\\fortnitelogo0.jpg");
-    ImageIcon iconLOL = new ImageIcon("src\\main\\resources\\lollogo0.jpg");
-    ImageIcon iconDiscord = new ImageIcon("src\\main\\resources\\discordlogo0.jpg");
-    ImageIcon iconGHub = new ImageIcon("src\\main\\resources\\ghublogo0.jpg");
+    ImageIcon icon = new ImageIcon("src\\main\\resources\\icons\\photo_2024-09-28_16-30-31 (1).jpg");
+    ImageIcon iconSteam = new ImageIcon("src\\main\\resources\\icons\\Steam_icon_logo.svg.png");
+    ImageIcon iconDota = new ImageIcon("src\\main\\resources\\icons\\dotalogo0.png");
+    ImageIcon iconCS = new ImageIcon("src\\main\\resources\\icons\\cslogo0.jpg");
+    ImageIcon iconBrawlHalla = new ImageIcon("src\\main\\resources\\icons\\brawlhallalogo0.png");
+    ImageIcon iconDBD = new ImageIcon("src\\main\\resources\\icons\\deadbydaylightlogo0.png");
+    ImageIcon iconValorant = new ImageIcon("src\\main\\resources\\icons\\valorantlogo0.png");
+    ImageIcon iconFortnite = new ImageIcon("src\\main\\resources\\icons\\fortnitelogo0.jpg");
+    ImageIcon iconLOL = new ImageIcon("src\\main\\resources\\icons\\lollogo0.jpg");
+    ImageIcon iconDiscord = new ImageIcon("src\\main\\resources\\icons\\discordlogo0.jpg");
+    ImageIcon iconGHub = new ImageIcon("src\\main\\resources\\icons\\ghublogo0.jpg");
 
     JLabel logotype = new JLabel(icon);
     private JButton launchSteamButton;

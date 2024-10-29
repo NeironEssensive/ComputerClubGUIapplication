@@ -125,7 +125,8 @@ public class LoginForm extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(this, "Пользователь с таким логином не найден.", "Ошибка входа", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                } catch (Exception ex) {
+
+            } catch (Exception ex) {
                     System.out.println("Не удалось выполнить запрос: " + ex.getMessage());
                 } finally {
                     if (session != null && session.isOpen()) {
