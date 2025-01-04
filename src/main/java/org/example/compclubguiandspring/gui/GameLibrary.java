@@ -1,5 +1,8 @@
 package org.example.compclubguiandspring.gui;
 
+import org.example.compclubguiandspring.Utils.GameTimer;
+import org.example.compclubguiandspring.entity.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,11 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class GameLibrary extends JFrame implements ActionListener {
-    JLabel balance;
-    JLabel balanceText;
-    JButton balanceAddButton;
-    private Container c;
-    ImageIcon icon = new ImageIcon("src\\main\\resources\\icons\\photo_2024-09-28_16-30-31 (1).jpg");
+    ImageIcon icon = new ImageIcon("src\\main\\resources\\icons\\photo_2024-09-28_16-30-31 (1).png");
     ImageIcon iconSteam = new ImageIcon("src\\main\\resources\\icons\\Steam_icon_logo.svg.png");
     ImageIcon iconDota = new ImageIcon("src\\main\\resources\\icons\\dotalogo0.png");
     ImageIcon iconCS = new ImageIcon("src\\main\\resources\\icons\\cslogo0.jpg");
@@ -22,7 +21,6 @@ public class GameLibrary extends JFrame implements ActionListener {
     ImageIcon iconLOL = new ImageIcon("src\\main\\resources\\icons\\lollogo0.jpg");
     ImageIcon iconDiscord = new ImageIcon("src\\main\\resources\\icons\\discordlogo0.jpg");
     ImageIcon iconGHub = new ImageIcon("src\\main\\resources\\icons\\ghublogo0.jpg");
-
     JLabel logotype = new JLabel(icon);
     private JButton launchSteamButton;
     private JButton launchDotaButton;
@@ -34,123 +32,134 @@ public class GameLibrary extends JFrame implements ActionListener {
     private JButton launchLOLButton;
     private JButton launchDiscordButton;
     private JButton launchGHubButton;
-    GameLibrary(){
+
+    private Container c;
+    private JLabel timerLabel;
+    private JButton backToAccount;
+    private User currentUser;
+    private GameTimer gameTimer;
+
+    public GameLibrary(GameTimer gameTimer, User user) {
+        this.gameTimer = gameTimer;
+        this.currentUser = user;
+
         setTitle("InvokerQWE");
         setBounds(300, 90, 1200, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLocationRelativeTo(null);
 
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon backgroundImage = new ImageIcon("src\\main\\resources\\icons\\gamelibraryBackground.jpg"); // Замените на ваше изображение
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        backgroundPanel.setLayout(null);
+        getContentPane().add(backgroundPanel);
 
-        c = getContentPane();
-        c.setLayout(null);
-        c.setBackground(Color.lightGray);
+        JLabel logotype = new JLabel(icon);
         logotype.setBounds(175, -100, 800, 600);
-        logotype.setIcon(icon);
-        c.add(logotype);
+        backgroundPanel.add(logotype);
 
+        timerLabel = new JLabel("Time: 00:00:00");
+        timerLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        timerLabel.setSize(150, 80);
+        timerLabel.setLocation(1000, 10);
+        timerLabel.setForeground(Color.black);
+        backgroundPanel.add(timerLabel);
 
-        launchSteamButton = new JButton("Steam", iconSteam);
-        launchSteamButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchSteamButton.setSize(175, 65); //icon 50x50
-        launchSteamButton.setLocation(500, 500);
-        launchSteamButton.addActionListener(this);
-        c.add(launchSteamButton);
+        updateTimerDisplay();
+        Timer refreshTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTimerDisplay();
+            }
+        });
+        refreshTimer.start();
+        gameTimer.start();
 
+        backToAccount = new JButton("Account");
+        backToAccount.setFont(new Font("Arial", Font.PLAIN, 20));
+        backToAccount.setSize(150, 80);
+        backToAccount.setLocation(0, 0);
+        backToAccount.addActionListener(this);
+        styleButton(backToAccount);
+        backgroundPanel.add(backToAccount);
 
-        launchDotaButton = new JButton("Dota 2", iconDota);
-        launchDotaButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchDotaButton.setSize(175, 65); //icon 50x50
-        launchDotaButton.setLocation(300, 500);
-        launchDotaButton.addActionListener(this);
-        c.add(launchDotaButton);
+        launchSteamButton = createGameButton("Steam", iconSteam, 500, 500);
+        launchDotaButton = createGameButton("Dota 2", iconDota, 300, 500);
+        launchBrawlhallaButton = createGameButton("BrawlHalla", iconBrawlHalla, 700, 500);
+        launchCounterStrikeButton = createGameButton("CS2", iconCS, 100, 500);
+        launchDBDButton = createGameButton("DBD", iconDBD, 900, 500);
+        launchValorantButton = createGameButton("Valorant", iconValorant, 500, 600);
+        launchFortniteButton = createGameButton("Fortnite", iconFortnite, 300, 600);
+        launchLOLButton = createGameButton("LoL", iconLOL, 700, 600);
+        launchDiscordButton = createGameButton("Discord", iconDiscord, 100, 600);
+        launchGHubButton = createGameButton("GHub", iconGHub, 900, 600);
+        backgroundPanel.add(launchSteamButton);
+        backgroundPanel.add(launchDotaButton);
+        backgroundPanel.add(launchBrawlhallaButton);
+        backgroundPanel.add(launchCounterStrikeButton);
+        backgroundPanel.add(launchDBDButton);
+        backgroundPanel.add(launchValorantButton);
+        backgroundPanel.add(launchFortniteButton);
+        backgroundPanel.add(launchLOLButton);
+        backgroundPanel.add(launchDiscordButton);
+        backgroundPanel.add(launchGHubButton);
 
-        launchBrawlhallaButton = new JButton("BrawlHalla", iconBrawlHalla);
-        launchBrawlhallaButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchBrawlhallaButton.setSize(175, 65); //icon 50x50
-        launchBrawlhallaButton.setLocation(700, 500);
-        launchBrawlhallaButton.addActionListener(this);
-        c.add(launchBrawlhallaButton);
+        setVisible(true);
 
-        launchCounterStrikeButton = new JButton("CS2", iconCS);
-        launchCounterStrikeButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchCounterStrikeButton.setSize(175, 65); //icon 50x50
-        launchCounterStrikeButton.setLocation(100, 500);
-        launchCounterStrikeButton.addActionListener(this);
-        c.add(launchCounterStrikeButton);
-
-        launchDBDButton = new JButton("DBD", iconDBD);
-        launchDBDButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchDBDButton.setSize(175, 65); //icon 50x50
-        launchDBDButton.setLocation(900, 500);
-        launchDBDButton.addActionListener(this);
-        c.add(launchDBDButton);
-
-        launchValorantButton = new JButton("Valorant", iconValorant);
-        launchValorantButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchValorantButton.setSize(175, 65); //icon 50x50
-        launchValorantButton.setLocation(500, 600);
-        launchValorantButton.addActionListener(this);
-        c.add(launchValorantButton);
-
-        launchFortniteButton = new JButton("Fortnite", iconFortnite);
-        launchFortniteButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchFortniteButton.setSize(175, 65); //icon 50x50
-        launchFortniteButton.setLocation(300, 600);
-        launchFortniteButton.addActionListener(this);
-        c.add(launchFortniteButton);
-
-        launchLOLButton = new JButton("LoL", iconLOL);
-        launchLOLButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchLOLButton.setSize(175, 65); //icon 50x50
-        launchLOLButton.setLocation(700, 600);
-        launchLOLButton.addActionListener(this);
-        c.add(launchLOLButton);
-
-        launchDiscordButton = new JButton("Discord", iconDiscord);
-        launchDiscordButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchDiscordButton.setSize(175, 65); //icon 50x50
-        launchDiscordButton.setLocation(100, 600);
-        launchDiscordButton.addActionListener(this);
-        c.add(launchDiscordButton);
-
-        launchGHubButton = new JButton("GHub", iconGHub);
-        launchGHubButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        launchGHubButton.setSize(175, 65); //icon 50x50
-        launchGHubButton.setLocation(900, 600);
-        launchGHubButton.addActionListener(this);
-        c.add(launchGHubButton);
-
-        balance = new JLabel("Balance : ");
-        balance.setFont(new Font("Arial", Font.PLAIN, 20));
-        balance.setSize(150,80);
-        balance.setLocation(1000,0);
-        c.add(balance);
-
-        balanceText = new JLabel("0");
-        balanceText.setFont(new Font("Arial", Font.PLAIN, 20));
-        balanceText.setSize(150,80);
-        balanceText.setLocation(1100,0);
-        c.add(balanceText);
-
-        balanceAddButton = new JButton("Deposit");
-        balanceAddButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        balanceAddButton.setSize(150    , 25);
-        balanceAddButton.setLocation(1000, 60);
-        balanceAddButton.addActionListener(this);
-        c.add(balanceAddButton);
     }
+
+    private JButton createGameButton(String text, ImageIcon icon, int x, int y) {
+        JButton button = new JButton(text, icon);
+        button.setFont(new Font("Arial", Font.PLAIN, 15));
+        button.setSize(175, 65);
+        button.setLocation(x, y);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.addActionListener(this);
+        return button;
+    }
+
+    private void styleButton(JButton button) {
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.black);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    public void updateTimerDisplay() {
+        if (gameTimer != null) {
+            timerLabel.setText("Time: " + gameTimer.getCurrentTime());
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-    if(e.getSource()==launchSteamButton){
-    try {
-        Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe");
-    } catch (IOException e1) {
-        e1.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
+        if (e.getSource() == backToAccount) {
+            Account account = new Account(currentUser, gameTimer);
+            account.setVisible(true);
+            account.updateTimerDisplay();
+            this.dispose();
+        }
+        if (e.getSource() == launchSteamButton) {
+            try {
+                Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
 
-    }
-}
-        if(e.getSource()==launchBrawlhallaButton){
+            }
+        }
+        if (e.getSource() == launchBrawlhallaButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -159,7 +168,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchDiscordButton){
+        if (e.getSource() == launchDiscordButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Users\\aglus\\AppData\\Local\\Discord\\app-1.0.9164\\Discord.exe");
             } catch (IOException e1) {
@@ -168,7 +177,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchDotaButton){
+        if (e.getSource() == launchDotaButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1       ");
             } catch (IOException e1) {
@@ -177,7 +186,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchValorantButton){
+        if (e.getSource() == launchValorantButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -186,7 +195,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchLOLButton){
+        if (e.getSource() == launchLOLButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -195,7 +204,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchGHubButton){
+        if (e.getSource() == launchGHubButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -204,7 +213,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchDBDButton){
+        if (e.getSource() == launchDBDButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -213,7 +222,7 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchCounterStrikeButton){
+        if (e.getSource() == launchCounterStrikeButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
@@ -222,20 +231,13 @@ public class GameLibrary extends JFrame implements ActionListener {
 
             }
         }
-        if(e.getSource()==launchFortniteButton){
+        if (e.getSource() == launchFortniteButton) {
             try {
                 Runtime.getRuntime().exec("C:\\Program Files (x86)\\Steam\\steam.exe1");
             } catch (IOException e1) {
                 e1.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Не удалось запустить игру", "Ошибка запуска игры", JOptionPane.ERROR_MESSAGE);
-
             }
         }
     }
-
-    public static void main(String[] args) {
-        GameLibrary gameLibrary = new GameLibrary();
-        gameLibrary.setVisible(true);
-    }
-
 }

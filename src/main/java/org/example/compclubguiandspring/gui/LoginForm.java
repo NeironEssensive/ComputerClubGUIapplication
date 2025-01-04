@@ -11,6 +11,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,26 +23,28 @@ public class LoginForm extends JFrame implements ActionListener {
     JTextField passwordText;
     JLabel usernameError;
     JLabel passwordError;
+
     public LoginForm() {
         jframe = new JFrame("Login Form");
-        loginText = new JTextField() ;
+        loginText = new JTextField();
         passwordText = new JTextField();
 
-        loginButton = new JButton("LOGIN") ;
+        loginButton = new JButton("LOGIN");
 
         usernameError = new JLabel();
         passwordError = new JLabel();
 
         jframe.setContentPane(new JPanel());
-        loginText.setPreferredSize(new Dimension(250,35));
-        passwordText.setPreferredSize(new Dimension(250,35));
-        loginButton.setPreferredSize(new Dimension(250,35));
+        loginText.setPreferredSize(new Dimension(250, 35));
+        passwordText.setPreferredSize(new Dimension(250, 35));
+        loginButton.setPreferredSize(new Dimension(250, 35));
         loginButton.setBackground(new Color(66, 245, 114));
         loginButton.setFocusPainted(false);
         loginButton.addActionListener(this);
 
         loginText.setText("Enter your login");
         loginText.setForeground(Color.gray);
+
         passwordText.setText("Enter your password");
         passwordText.setForeground(Color.gray);
 
@@ -54,42 +58,79 @@ public class LoginForm extends JFrame implements ActionListener {
 
         Insets textInsets = new Insets(10, 10, 5, 10);
         Insets buttonInsets = new Insets(20, 10, 10, 10);
-        Insets errorInsets = new Insets(0,20,0,0);
+        Insets errorInsets = new Insets(0, 20, 0, 0);
 
         GridBagConstraints input = new GridBagConstraints();
         input.anchor = GridBagConstraints.CENTER;
         input.insets = textInsets;
         input.gridy = 1;
-        jframe.add(loginText,input);
+        jframe.add(loginText, input);
 
         input.gridy = 2;
         input.insets = errorInsets;
         input.anchor = GridBagConstraints.WEST;
-        jframe.add(usernameError,input);
+        jframe.add(usernameError, input);
 
         input.gridy = 3;
         input.insets = textInsets;
         input.anchor = GridBagConstraints.CENTER;
-        jframe.add(passwordText,input);
+        jframe.add(passwordText, input);
 
         input.gridy = 4;
         input.insets = errorInsets;
         input.anchor = GridBagConstraints.WEST;
-        jframe.add(passwordError,input);
+        jframe.add(passwordError, input);
 
         input.insets = buttonInsets;
         input.anchor = GridBagConstraints.WEST;
         input.gridx = 0;
         input.gridy = 5;
-        jframe.add(loginButton,input);
+        jframe.add(loginButton, input);
 
-        jframe.setSize(950,650);
+        jframe.setSize(950, 650);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(true);
         jframe.setResizable(false);
         jframe.setLocationRelativeTo(null);
 
         jframe.requestFocus();
+        loginText.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (loginText.getText().equals("Enter your login")) {
+                    loginText.setText("");
+                    loginText.setForeground(Color.BLACK);
+                }
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (loginText.getText().isEmpty()) {
+                    loginText.setText("Enter your login");
+                    loginText.setForeground(Color.GRAY);
+
+                }
+
+            }
+        });
+        passwordText.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (passwordText.getText().equals("Enter your password")) {
+                    passwordText.setText("");
+                    passwordText.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (passwordText.getText().isEmpty()) {
+                    passwordText.setText("Enter your password");
+                    passwordText.setForeground(Color.GRAY);
+                }
+            }
+        });
     }
 
     @Override
@@ -115,8 +156,8 @@ public class LoginForm extends JFrame implements ActionListener {
 
                         User foundUser = users.get(0);
                         if (foundUser.getPassword().equals(password)) {
-                            GameLibrary gameLibrary = new GameLibrary();
-                            gameLibrary.setVisible(true);
+                            Account account = new Account(foundUser, null);
+                            account.setVisible(true);
                             this.jframe.dispose();
                         } else {
                             JOptionPane.showMessageDialog(this, "Логин или пароль не верны.", "Ошибка входа", JOptionPane.ERROR_MESSAGE);
@@ -127,13 +168,13 @@ public class LoginForm extends JFrame implements ActionListener {
                 }
 
             } catch (Exception ex) {
-                    System.out.println("Не удалось выполнить запрос: " + ex.getMessage());
-                } finally {
-                    if (session != null && session.isOpen()) {
-                        session.close();
-                    }
-                    sessionFactory.close();
+                System.out.println("Не удалось выполнить запрос: " + ex.getMessage());
+            } finally {
+                if (session != null && session.isOpen()) {
+                    session.close();
                 }
+                sessionFactory.close();
+            }
         }
     }
-    }
+}

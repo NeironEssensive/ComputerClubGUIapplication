@@ -1,5 +1,7 @@
 package org.example.compclubguiandspring.entity;
+
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "users")
@@ -8,17 +10,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "login",nullable = false, unique = true)
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
     @Column(name = "password")
     private String password;
     @Column(name = "phone")
     private String phone;
+    @Column(name = "balance")
+    private int balance;
 
     public User() {
     }
 
-    public User(int id, String login, String password, String phone) {}
+    public User(int id, String login, String password, String phone, int balance) {
+    }
 
     public int getId() {
         return id;
@@ -50,6 +55,14 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }
 
