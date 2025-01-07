@@ -1,9 +1,18 @@
 package org.example.compclubguiandspring.gui;
 
+import org.example.compclubguiandspring.Utils.API;
+import org.json.simple.JSONObject;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainForm extends JFrame implements ActionListener {
 
@@ -14,6 +23,7 @@ public class MainForm extends JFrame implements ActionListener {
     private JButton signIn;
     private JButton login;
     private JLabel backgroundLabel;
+    private JLabel timeLabel;
     ImageIcon icon = new ImageIcon("src\\main\\resources\\icons\\photo_2024-09-28_16-30-31 (1).png");
     JLabel logotype = new JLabel(icon);
 
@@ -23,7 +33,7 @@ public class MainForm extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        backgroundLabel = new JLabel(new ImageIcon("src\\main\\resources\\icons\\background.jpg"));
+        backgroundLabel = new JLabel(new ImageIcon("src\\main\\resources\\icons\\accountBackground.jpg"));
         backgroundLabel.setLayout(new GridBagLayout());
         getContentPane().add(backgroundLabel);
 
@@ -34,7 +44,7 @@ public class MainForm extends JFrame implements ActionListener {
         logotype.setPreferredSize(new Dimension(800, 300));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3; // Занять 3 колонки
+        gbc.gridwidth = 3;
         backgroundLabel.add(logotype, gbc);
 
         titleWelcome = new JLabel("Welcome to the club, buddy");
@@ -75,7 +85,39 @@ public class MainForm extends JFrame implements ActionListener {
         gbc.gridy = 3;
         backgroundLabel.add(buttonPanel, gbc);
 
+        // Добавляем пустой JLabel для заполнения пространства
+        JLabel filler = new JLabel();
+        gbc.gridx = 0; // Устанавливаем на первый столбец
+        gbc.gridy = 0; // Устанавливаем на первый ряд
+        gbc.weightx = 1; // Устанавливаем вес для заполнения
+        gbc.weighty = 1; // Устанавливаем вес для заполнения
+        backgroundLabel.add(filler, gbc);
+
+        timeLabel = new JLabel();
+        timeLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        timeLabel.setForeground(Color.BLACK);
+        gbc.gridx = 2; // Устанавливаем на третий столбец
+        gbc.gridy = 0; // Устанавливаем на первый ряд
+        gbc.anchor = GridBagConstraints.NORTHEAST; // Выравнивание по правому верхнему углу
+        gbc.weightx = 0; // Устанавливаем вес для времени
+        gbc.weighty = 0; // Устанавливаем вес для времени
+        backgroundLabel.add(timeLabel, gbc);
+        updateTime();
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+            }
+        });
+        timer.start();
     }
+    private void updateTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        timeLabel.setText(formatter.format(date));
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

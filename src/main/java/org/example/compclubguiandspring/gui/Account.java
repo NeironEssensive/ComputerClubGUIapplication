@@ -1,15 +1,21 @@
 package org.example.compclubguiandspring.gui;
 
+import org.example.compclubguiandspring.Utils.API;
 import org.example.compclubguiandspring.Utils.GameTimer;
 import org.example.compclubguiandspring.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.json.simple.JSONObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Account extends JFrame implements ActionListener {
     private JLabel balance;
@@ -22,6 +28,7 @@ public class Account extends JFrame implements ActionListener {
     private JLabel timerLabel;
     private JComboBox tariff;
     private User currentUser;
+    private JSONObject weatherData;
     private GameTimer gameTimer;
     String[] listOfTariffs = {"1 hour = 200", "3 hours = 500", "8 hours = 1000"};
     JLabel tariffLabel;
@@ -35,12 +42,12 @@ public class Account extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
 
+
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // Рисуем фоновое изображение
-                ImageIcon backgroundImage = new ImageIcon("src\\main\\resources\\icons\\accountBackground.jpg"); // Замените на ваше изображение
+                ImageIcon backgroundImage = new ImageIcon("src\\main\\resources\\icons\\accountBackground.jpg");
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -112,7 +119,38 @@ public class Account extends JFrame implements ActionListener {
         styleButton(balanceAddButton);
         backgroundPanel.add(balanceAddButton);
 
-        setVisible(true);
+        JPanel weatherPanel = new JPanel();
+        weatherPanel.setLayout(new GridBagLayout());
+        weatherPanel.setOpaque(false); // Делаем фон прозрачным
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        JLabel weatherConditionalImage = new JLabel();
+        weatherConditionalImage.setPreferredSize(new Dimension(250, 217));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        weatherPanel.add(weatherConditionalImage, gbc);
+
+        JLabel temperatureText = new JLabel("10 C");
+        temperatureText.setFont(new Font("Dialog", Font.BOLD, 24));
+        temperatureText.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        weatherPanel.add(temperatureText, gbc);
+
+        JLabel weatherConditionalDesc = new JLabel("Cloudy");
+        weatherConditionalDesc.setFont(new Font("Dialog", Font.BOLD, 24));
+        weatherConditionalDesc.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        weatherPanel.add(weatherConditionalDesc, gbc);
+
+        weatherPanel.setBounds(400, 100, 400, 400);
+        backgroundPanel.add(weatherPanel);
+
+
 
         if (gameTimer != null) {
             updateTimerDisplay();
@@ -125,6 +163,28 @@ public class Account extends JFrame implements ActionListener {
             refreshTimer.start();
 
         }
+
+        String city = "kamyshin";
+        weatherData = API.getWeatherData(city);
+        String weatherCondition = (String) weatherData.get("weather_condition");
+        switch(weatherCondition){
+            case "Clear":
+                weatherConditionalImage.setIcon(loadImage("src/main/resources/icons/clear.png"));
+                break;
+            case "Cloudy":
+                weatherConditionalImage.setIcon(loadImage("src/main/resources/icons/cloudy.png"));
+                break;
+            case "Rain":
+                weatherConditionalImage.setIcon(loadImage("src/main/resources/icons/rain.png"));
+                break;
+            case "Snow":
+                weatherConditionalImage.setIcon(loadImage("src/main/resources/icons/snow.png"));
+                break;
+        }
+        double temperature = (double) weatherData.get("temperature");
+        temperatureText.setText(temperature + " C");
+        weatherConditionalDesc.setText(weatherCondition);
+        setVisible(true);
     }
 
     private void styleButton(JButton button) {
@@ -174,6 +234,17 @@ public class Account extends JFrame implements ActionListener {
             updateBalanceDisplay();
             JOptionPane.showMessageDialog(this, "You have received " + refundAmount + " for the remaining time.");
         }
+    }
+    private ImageIcon loadImage(String path) {
+        try {
+            BufferedImage image = ImageIO.read(new File(path));
+            return new ImageIcon(image);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Image not found");
+        return null;
     }
 
 

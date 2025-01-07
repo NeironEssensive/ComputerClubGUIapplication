@@ -53,7 +53,7 @@ public class GameLibrary extends JFrame implements ActionListener {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon backgroundImage = new ImageIcon("src\\main\\resources\\icons\\gamelibraryBackground.jpg"); // Замените на ваше изображение
+                ImageIcon backgroundImage = new ImageIcon("src\\main\\resources\\icons\\accountBackground.jpg"); // Замените на ваше изображение
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };

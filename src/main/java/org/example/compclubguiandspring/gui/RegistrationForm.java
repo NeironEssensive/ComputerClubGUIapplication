@@ -30,6 +30,7 @@ public class RegistrationForm extends JFrame implements ActionListener {
     private JComboBox year;
     private JButton submitButton;
     private JLabel res;
+    private JButton backButton;
     private JButton togglePasswordVisibilityButton;
     private boolean passwordVisible = false;
 
@@ -188,15 +189,33 @@ public class RegistrationForm extends JFrame implements ActionListener {
         res.setForeground(new Color(255, 0, 0));
         res.setPreferredSize(new Dimension(300, 30));
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         c.add(res, gbc);
+
+        backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        backButton.setBackground(new Color(200, 50, 50)); // Красный цвет
+        backButton.setForeground(Color.BLACK);
+        backButton.addActionListener(this);
+        GridBagConstraints gbcBack = new GridBagConstraints();
+        gbcBack.gridx = 0;
+        gbcBack.gridy = 7; // Позиция под результатом
+        gbcBack.gridwidth = 2;
+        gbcBack.fill = GridBagConstraints.HORIZONTAL;
+        c.add(backButton, gbcBack);
 
         setVisible(true);
 
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backButton) {
+            MainForm mainForm = new MainForm();
+            mainForm.setVisible(true);
+            this.dispose();
+
+        }
         if (e.getSource() == submitButton) {
             SessionFactory factory = new Configuration()
                     .configure("hibernate.cfg.xml")
@@ -218,8 +237,7 @@ public class RegistrationForm extends JFrame implements ActionListener {
                     res.setText("This login is "
                             + " already exists");
                 } else if (passwordValue.isEmpty()) {
-                    res.setText("Password must not be empty"
-                            + " for registration");
+                    res.setText("Password must not be empty");
                 } else if (phoneValue.isEmpty()) {
                     res.setText("Fill phone number for"
                             + " registration");

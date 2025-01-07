@@ -19,6 +19,7 @@ import java.util.List;
 public class LoginForm extends JFrame implements ActionListener {
     JFrame jframe;
     JButton loginButton;
+    JButton backButton; // Кнопка "Back"
     JTextField loginText;
     JTextField passwordText;
     JLabel usernameError;
@@ -30,6 +31,8 @@ public class LoginForm extends JFrame implements ActionListener {
         passwordText = new JTextField();
 
         loginButton = new JButton("LOGIN");
+        backButton = new JButton("BACK"); // Создание кнопки "Back"
+
 
         usernameError = new JLabel();
         passwordError = new JLabel();
@@ -38,9 +41,12 @@ public class LoginForm extends JFrame implements ActionListener {
         loginText.setPreferredSize(new Dimension(250, 35));
         passwordText.setPreferredSize(new Dimension(250, 35));
         loginButton.setPreferredSize(new Dimension(250, 35));
+        backButton.setPreferredSize(new Dimension(250, 35)); // Установка размера кнопки "Back"
+        backButton.setBackground(new Color(200, 50, 50)); // Красный цвет для кнопки "Back"
         loginButton.setBackground(new Color(66, 245, 114));
         loginButton.setFocusPainted(false);
         loginButton.addActionListener(this);
+        backButton.addActionListener(this);
 
         loginText.setText("Enter your login");
         loginText.setForeground(Color.gray);
@@ -57,7 +63,7 @@ public class LoginForm extends JFrame implements ActionListener {
         jframe.setLayout(new GridBagLayout());
 
         Insets textInsets = new Insets(10, 10, 5, 10);
-        Insets buttonInsets = new Insets(20, 10, 10, 10);
+        Insets buttonInsets = new Insets(7, 10, 5, 10);
         Insets errorInsets = new Insets(0, 20, 0, 0);
 
         GridBagConstraints input = new GridBagConstraints();
@@ -87,6 +93,10 @@ public class LoginForm extends JFrame implements ActionListener {
         input.gridy = 5;
         jframe.add(loginButton, input);
 
+        input.gridx = 0; // Позиция для кнопки "Back"
+        input.gridy = 6; // Под кнопкой "Login"
+        jframe.add(backButton, input); // Добавление кнопки "Back"
+
         jframe.setSize(950, 650);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(true);
@@ -109,7 +119,6 @@ public class LoginForm extends JFrame implements ActionListener {
                 if (loginText.getText().isEmpty()) {
                     loginText.setText("Enter your login");
                     loginText.setForeground(Color.GRAY);
-
                 }
 
             }
@@ -135,6 +144,11 @@ public class LoginForm extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == backButton){
+            MainForm mainForm = new MainForm();
+            mainForm.setVisible(true);
+            this.jframe.dispose();  
+        }
         if (e.getSource() == loginButton) {
             SessionFactory sessionFactory = new Configuration()
                     .configure("hibernate.cfg.xml")
