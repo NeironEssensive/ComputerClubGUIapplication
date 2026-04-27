@@ -62,7 +62,6 @@ Validation runs both on the Swing side (instant feedback) and service side (secu
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
 
 ## 🚀 Quick Run
-bash
 # 1. Clone
 git clone https://github.com/NeironEssensive/ComputerClubGUIapplication.git
 # 2. Build & run
